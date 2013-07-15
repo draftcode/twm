@@ -72,7 +72,7 @@ in this Software without prior written authorization from The Open Group.
 #include "screen.h"
 #include "icons.h"
 #include "version.h"
-
+#include <X11/extensions/Xrandr.h>
 
 #define MAX_X_EVENT 256
 event_proc EventHandler[MAX_X_EVENT]; /* event handler jump table */
@@ -141,7 +141,7 @@ void
 InitEvents(void)
 {
     int i;
-
+    int event_base, error_base;
 
     ResizeWindow = (Window) 0;
     DragWindow = (Window) 0;
@@ -170,6 +170,10 @@ InitEvents(void)
     EventHandler[VisibilityNotify] = HandleVisibilityNotify;
     if (HasShape)
 	EventHandler[ShapeEventBase+ShapeNotify] = HandleShapeNotify;
+    if (XRRQueryExtension(dpy, &event_base, &error_base)) {
+      EventHandler[event_base+RRScreenChangeNotify] = HandleRRScreenChangeNotify;
+    }
+
 }
 
 
@@ -2395,6 +2399,16 @@ HandleShapeNotify (void)
     }
     Tmp_win->wShaped = sev->shaped;
     SetFrameShape (Tmp_win);
+}
+
+
+
+void
+HandleRRScreenChangeNotify ()
+{
+  ExecuteFunction(F_RESTART, NULL, Event.xany.window,
+      Tmp_win, &Event, Context, FALSE);
+  XRRUpdateConfiguration(&Event);
 }
 
 

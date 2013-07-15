@@ -97,6 +97,7 @@ extern void HandleEnterNotify ( void );
 extern void HandleLeaveNotify ( void );
 extern void HandleConfigureRequest ( void );
 extern void HandleShapeNotify ( void );
+extern void HandleRRScreenChangeNotify ( void );
 extern void HandleUnknown ( void );
 extern int Transient ( Window w, Window *propw );
 extern ScreenInfo * FindScreenInfo ( Window w );
