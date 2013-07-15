@@ -2226,10 +2226,10 @@ HandleLeaveNotify(void)
 		    if (Tmp_win->hilite_w)
 		      XUnmapWindow (dpy, Tmp_win->hilite_w);
 		    SetBorder (Tmp_win, False);
-		    if (Scr->TitleFocus ||
+		    /*if (Scr->TitleFocus ||
 			Tmp_win->protocols & DoesWmTakeFocus)
 		      SetFocus ((TwmWindow *) NULL, Event.xcrossing.time);
-		    Scr->Focus = NULL;
+		    Scr->Focus = NULL;*/
 		} else if (Event.xcrossing.window == Tmp_win->w &&
 				!scanArgs.enters) {
 		    InstallWindowColormaps (LeaveNotify, &Scr->TwmRoot);
